@@ -3,7 +3,7 @@ title: Renting a brain by the hour
 description: I rented a V100 by the hour, taught a 27B model to guess its own next words, and squeezed 60% more context out of the same card. Exact numbers, exact settings.
 publishedAt: 2026-10-18
 tags: [infrastructure, ai, self-hosting]
-draft: true
+draft: false
 ---
 
 <script type="module">
