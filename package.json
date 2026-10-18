@@ -13,7 +13,8 @@
     "check": "astro check",
     "test": "node --test tests/publication.test.ts",
     "test:output": "node --test tests/build-output.test.mjs",
-    "verify": "npm run check && npm test && npm run build && npm run test:output"
+    "test:publication": "node --test tests/publication-build.test.mjs",
+    "verify": "npm run check && npm test && npm run build && npm run test:output && npm run test:publication"
   },
   "dependencies": {
     "@astrojs/rss": "4.0.19",
