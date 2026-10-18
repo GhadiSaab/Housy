@@ -272,7 +272,7 @@ img {
 .project-card {
   position: relative;
   display: grid;
-  grid-template-columns: 87px 1fr;
+  grid-template-columns: 87px minmax(0, 1fr);
   gap: 24px;
   padding: 25px 0 28px;
   border-bottom: 1px solid var(--rule);
@@ -295,7 +295,11 @@ img {
   color: #626b59;
   margin-bottom: 4px;
 }
+.project-copy {
+  min-width: 0;
+}
 .project-copy h3 {
+  overflow-wrap: anywhere;
   font-family: var(--serif);
   font-size: 24px;
   letter-spacing: -0.4px;
@@ -834,7 +838,7 @@ img {
     padding-top: 23px;
   }
   .project-card {
-    grid-template-columns: 50px 1fr;
+    grid-template-columns: 50px minmax(0, 1fr);
     gap: 15px;
     padding: 24px 0;
   }

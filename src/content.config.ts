@@ -2,13 +2,18 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
+const contentDate = z.union([
+  z.date(),
+  z.iso.date().transform(value => new Date(`${value}T00:00:00.000Z`)),
+]);
+
 const posts = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/posts' }),
   schema: z.object({
     title: z.string().trim().min(1),
     description: z.string().trim().min(1),
-    publishedAt: z.coerce.date(),
-    updatedAt: z.coerce.date().optional(),
+    publishedAt: contentDate,
+    updatedAt: contentDate.optional(),
     tags: z.array(z.string().trim().min(1)).default([]),
     draft: z.boolean().default(false),
   }),
