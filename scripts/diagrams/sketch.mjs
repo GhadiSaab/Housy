@@ -6,11 +6,16 @@
 // Palette copied from src/styles/global.css — keep in sync by eye.
 import rough from 'roughjs';
 
-export const INK = '#232821';
-export const GREEN = '#295c46';
-export const MUTED = '#62685f';
-export const RULE = '#d5d8cd';
-export const PAPER = '#f8f6f0';
+// CSS custom properties, not hex literals: these diagrams are embedded
+// inline (not <img src>), so they participate in the page's cascade and
+// pick up the site's dark-mode palette automatically. Comment above each
+// stays in sync with src/styles/global.css by eye.
+export const INK = 'var(--ink)'; // light #232821 / dark #e7e9df
+export const GREEN = 'var(--green)'; // light #295c46 / dark #a7c8a3
+export const MUTED = 'var(--muted)'; // light #62685f / dark #a7afa3
+export const RULE = 'var(--rule)'; // light #d5d8cd / dark #394338
+export const PAPER = 'var(--paper)'; // light #f8f6f0 / dark #181d19
+export const RED = 'var(--red)'; // light #b3432b / dark #e5a08a
 
 export const FONT_SANS = 'Inter, ui-sans-serif, system-ui, sans-serif';
 export const FONT_MONO = 'JetBrains Mono, ui-monospace, Menlo, monospace';

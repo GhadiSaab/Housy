@@ -1,10 +1,9 @@
-import { roughRect, roughLine, text, svgDoc, INK, GREEN, MUTED, FONT_MONO } from './sketch.mjs';
+import { roughRect, roughLine, text, svgDoc, INK, GREEN, MUTED, RED, FONT_MONO } from './sketch.mjs';
 import { DRAW_IN_STYLE, STAGE_POP_STYLE, stageRule, group } from './lib.mjs';
 import { writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
-const RED = '#b3432b';
 const W = 780, H = 500;
 const body = [];
 const stageStyles = [STAGE_POP_STYLE];
