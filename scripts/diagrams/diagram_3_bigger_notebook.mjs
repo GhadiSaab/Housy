@@ -34,11 +34,12 @@ function row(y, cells, cellLabel, tokensLabel, usedLabel, stroke, seed) {
 body.push(text(barX + barW / 2, 84, 'the GPU has one fixed memory budget, about 30 GB, every time', { size: 13, anchor: 'middle', fill: MUTED }));
 
 body.push(`<g class="cellsBefore">`);
-body.push(row(120, 6, '16-bit per remembered word', '163,840 tokens fit', '30,178 MiB used', MUTED, 1));
+body.push(row(120, 5, '16-bit cache', '163,840 tokens fit', '30,178 MiB used', MUTED, 1));
 body.push(`</g>`);
 
 body.push(`<g class="cellsAfter">`);
-body.push(row(270, 12, '8-bit per remembered word', '262,144 tokens fit', '30,176 MiB used', GREEN, 100));
+// 5 -> 8 cells: 1.6x, matching the measured 163,840 -> 262,144 tokens.
+body.push(row(270, 8, '8-bit cache', '262,144 tokens fit', '30,176 MiB used', GREEN, 100));
 body.push(`</g>`);
 
 keyframes.push(`@keyframes settleIn { from { opacity: 0; } to { opacity: 1; } }
@@ -50,7 +51,7 @@ keyframes.push(`@keyframes settleIn { from { opacity: 0; } to { opacity: 1; } }
 body.push(`<path class="draw-in" d="M 50 135 L 50 285" stroke="${INK}" stroke-width="2" fill="none" stroke-linecap="round" />`);
 body.push(`<path d="M 43 275 L 50 285 L 57 275" stroke="${INK}" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />`);
 
-body.push(text(barX + barW / 2, 400, 'same budget, same model, smaller cells, twice the room for conversation', { size: 12.5, anchor: 'middle', fill: MUTED, weight: '600' }));
+body.push(text(barX + barW / 2, 400, 'same budget, same model, smaller cells, 60% more room for conversation', { size: 12.5, anchor: 'middle', fill: MUTED, weight: '600' }));
 
 const style = keyframes.join('\n') + '\n' + DRAW_IN_STYLE;
 const svg = svgDoc({ width: W, height: H, title: 'Making room for a longer conversation', body: body.join('\n'), style });
