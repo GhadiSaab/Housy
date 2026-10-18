@@ -10,7 +10,7 @@ const textFiles = () => readdirSync(dist, { recursive: true }).filter(path =>
 );
 
 test('all public pages have built routes and the production canonical origin', () => {
-  for (const path of ['index.html', 'about/index.html', 'projects/index.html', 'projects/homelab/index.html', 'projects/this-website/index.html', 'writing/index.html']) {
+  for (const path of ['index.html', 'about/index.html', 'open-source/index.html', 'projects/index.html', 'projects/homelab/index.html', 'projects/this-website/index.html', 'projects/barenetes/index.html', 'projects/paastech/index.html', 'projects/ctx-memory/index.html', 'writing/index.html']) {
     assert.ok(existsSync(join(dist, path)), `Missing public page: ${path}`);
     assert.match(read(path), /rel="canonical" href="https:\/\/gsaab\.dev\//);
   }

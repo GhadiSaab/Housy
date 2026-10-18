@@ -3,6 +3,7 @@ title: A homelab, managed through Git
 description: A k3s cluster, a GitOps workflow, and a place to explore how software runs.
 technologies: [Kubernetes, Flux, Linux, Cloudflare]
 featured: true
+source: https://github.com/GhadiSaab/flux-homelab
 ---
 
 My homelab is a place to bring software engineering and infrastructure together.

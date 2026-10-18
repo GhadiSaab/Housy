@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { contributions, maintained } from '../data/open-source';
+import { formatDate } from '../lib/content';
+---
+<BaseLayout title="Open source — Ghadi" description="Open-source projects I maintain and fixes I’ve had merged upstream.">
+  <header class="page-header"><p class="eyebrow">IN THE OPEN</p><h1>Open source<span class="heading-dot">.</span></h1><p>Projects I maintain, and fixes I’ve had merged<br />into projects run by other people.</p></header>
+
+  <section class="oss-section" aria-labelledby="maintained-heading">
+    <div class="section-heading"><h2 id="maintained-heading"><span class="section-number">01 /</span> Things I maintain</h2></div>
+    {maintained.map(item => (
+      <article class="post-row">
+        <p class="eyebrow">github.com/{item.repo}</p>
+        <h3><a href={`https://github.com/${item.repo}`}>{item.name}<span aria-hidden="true">↗</span></a></h3>
+        <p>{item.description}</p>
+        <ul class="tags" aria-label="Technologies">{item.tech.map(t => <li>{t}</li>)}</ul>
+      </article>
+    ))}
+  </section>
+
+  <section class="oss-section" aria-labelledby="upstream-heading">
+    <div class="section-heading"><h2 id="upstream-heading"><span class="section-number">02 /</span> Merged upstream</h2></div>
+    <p class="section-intro">Fixes and features accepted into projects run by other people. Merged pull requests only.</p>
+    {contributions.map(c => (
+      <article class="post-row">
+        <p class="eyebrow"><time datetime={c.mergedAt}>{formatDate(new Date(`${c.mergedAt}T00:00:00Z`))}</time> / {c.repo}</p>
+        <h3><a href={c.url}>{c.project}<span aria-hidden="true">↗</span></a></h3>
+        <p class="oss-about">{c.about}</p>
+        <p>{c.change}</p>
+      </article>
+    ))}
+  </section>
+</BaseLayout>

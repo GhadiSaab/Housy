@@ -3,8 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import InfrastructureSketch from '../components/InfrastructureSketch.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import PostRow from '../components/PostRow.astro';
-import { getPosts, getProjects } from '../lib/content';
+import { getPosts, getProjects, formatDate } from '../lib/content';
 import { siteConfig } from '../config';
+import { contributions } from '../data/open-source';
 const [projects, posts] = await Promise.all([getProjects(), getPosts()]);
 const selected = projects.filter(p => p.data.featured).slice(0, 3);
 ---
@@ -24,8 +25,20 @@ const selected = projects.filter(p => p.data.featured).slice(0, 3);
     <div class="project-list">{selected.map((project, index) => <ProjectCard project={project} index={index} />)}</div>
   </section>
 
+  <section class="home-section" aria-labelledby="oss-heading">
+    <div class="section-heading"><h2 id="oss-heading"><span class="section-number">02 /</span> Open source</h2><a class="quiet-link" href="/open-source/">All contributions <span aria-hidden="true">↗</span></a></div>
+    <p class="section-intro">Fixes I’ve had merged into other people’s projects.</p>
+    {contributions.slice(0, 4).map(c => (
+      <article class="post-row">
+        <p class="eyebrow"><time datetime={c.mergedAt}>{formatDate(new Date(`${c.mergedAt}T00:00:00Z`))}</time> / {c.repo}</p>
+        <h3><a href={c.url}>{c.project}<span aria-hidden="true">↗</span></a></h3>
+        <p>{c.change}</p>
+      </article>
+    ))}
+  </section>
+
   <section class="home-section writing-section" aria-labelledby="writing-heading">
-    <div class="section-heading"><h2 id="writing-heading"><span class="section-number">02 /</span> Field notes</h2><a class="quiet-link" href="/writing/">All writing <span aria-hidden="true">↗</span></a></div>
+    <div class="section-heading"><h2 id="writing-heading"><span class="section-number">03 /</span> Field notes</h2><a class="quiet-link" href="/writing/">All writing <span aria-hidden="true">↗</span></a></div>
     <p class="section-intro">Things I’m building, questions I’m exploring, and lessons along the way.</p>
     {posts.length > 0 ? posts.slice(0, 3).map(post => <PostRow post={post} />) : <div class="empty-notes"><span class="note-symbol" aria-hidden="true">✎</span><div><h3>Notes are taking shape.</h3><p>The first field notes are on their way. In the meantime, take a look around the <a href="/projects/">projects</a>.</p></div></div>}
   </section>

@@ -3,7 +3,41 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import InfrastructureSketch from '../components/InfrastructureSketch.astro';
 import { siteConfig } from '../config';
 ---
-<BaseLayout title="About — Ghadi" description="I'm Ghadi, a software engineer focused on SRE and infrastructure.">
+<BaseLayout title="About — Ghadi" description="Ghadi Saab: SRE apprentice and DevOps engineering student in Montpellier, writing a lot of Rust on the side.">
   <header class="page-header"><p class="eyebrow">BEHIND THE SYSTEMS</p><h1>Hi, I’m Ghadi<span class="heading-dot">.</span></h1><p>Software engineer. Systems thinker. Builder.</p></header>
-  <div class="about-layout"><div class="prose"><p class="about-lead">I’m a software engineer focused on site reliability engineering and infrastructure.</p><p>I’m interested in the whole path from writing software to running it: the code, the delivery workflow, and the systems that support it.</p><p>This site is a place to share that work and the thinking behind it. You’ll find projects, architecture decisions, and field notes as they take shape.</p><p>My <a href="/projects/homelab/">homelab</a> brings those interests together in a k3s cluster managed through GitOps. It’s also where this corner of the internet lives.</p><a class="text-link" href={siteConfig.github}>Find me on GitHub <span aria-hidden="true">↗</span></a></div><div class="about-margin"><InfrastructureSketch /><p class="eyebrow">SOFTWARE + SYSTEMS + CURIOSITY</p></div></div>
+  <div class="about-layout">
+    <div class="prose">
+      <p class="about-lead">I’m Ghadi Saab, an engineering student in Montpellier who likes systems: building them, running them, and finding out why they break.</p>
+
+      <h2>What I do</h2>
+      <p>I’m an SRE apprentice at G2S, Groupama’s IT subsidiary, while studying for a DevOps engineering degree at Polytech Montpellier. Most of my days are about observability: instrumenting applications with OpenTelemetry and following production incidents back to their cause on OpenShift. I also wrote a small Python tool that generates Terraform for Dynatrace, so that more than 400 applications get consistent request names instead of someone setting them by hand, one app at a time.</p>
+      <p>Before that I spent most of a year at Genvia, which builds hydrogen electrolyzers. The factory supervised production with Excel and PowerApps files. I replaced them with Hynspector, a Rust and Vue app, and built an event-driven MQTT pipeline in Rust that traces parts through the line in real time. Over the summer I also did the Meta x MLH Production Engineering Fellowship, where production engineers from Meta reviewed our code and infrastructure.</p>
+
+      <h2>On the side</h2>
+      <p>I write a lot of Rust. With a few teammates I’ve rebuilt the core of Kubernetes (<a href="/projects/barenetes/">Barenetes</a>) and a small platform-as-a-service (<a href="/projects/paastech/">PaasTech</a>). I also send fixes upstream to other people’s open-source projects. The <a href="/open-source/">open source</a> page collects them.</p>
+      <p>I’m also first author on a research paper with Inria and LIRMM, currently under review, about running distributed machine-learning training across a constellation of 600 satellites linked by lasers. My part was the experiment pipeline, in Rust and Python. One result: two laser-link plans with exactly the same capacity can differ by a factor of 157 in how often the terminals have to re-point, and only one of them is something you could actually fly.</p>
+      <p>I also built and launched LinkTherapy, a platform that matches therapists and clients in Lebanon. Ten therapists and more than 130 clients have used it.</p>
+      <p>My <a href="/projects/homelab/">homelab</a> ties a lot of this together: a k3s cluster managed through GitOps, and where this website lives.</p>
+
+      <h2>Away from the keyboard</h2>
+      <p>I do bodybuilding. I coach others on training and nutrition, grounded in sports science, and I’m preparing for my first competition. I also organise and run distributions of food and essentials with Kouno Maana, an NGO supporting families in the Chouf region of Lebanon hit by war and inflation.</p>
+      <p>I speak French, English and Arabic.</p>
+      <a class="text-link" href={siteConfig.github}>Find me on GitHub <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="about-margin">
+      <InfrastructureSketch />
+      <p class="eyebrow">SOFTWARE + SYSTEMS + CURIOSITY</p>
+      <aside class="fact-sheet" aria-labelledby="facts-heading">
+        <p class="eyebrow" id="facts-heading">THE SHORT VERSION</p>
+        <dl>
+          <dt>Now</dt><dd>SRE apprentice at G2S (Groupama)</dd>
+          <dt>Studying</dt><dd>DevOps engineering degree, Polytech Montpellier. Graduating July 2028</dd>
+          <dt>Looking for</dt><dd>A 13 to 17 week internship in summer 2027, starting May, June or July</dd>
+          <dt>Mostly writing</dt><dd>Rust, Python, TypeScript</dd>
+          <dt>Based in</dt><dd>Montpellier, France</dd>
+          <dt>Reach me</dt><dd><a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a><br /><a href={siteConfig.github}>github.com/GhadiSaab</a></dd>
+        </dl>
+      </aside>
+    </div>
+  </div>
 </BaseLayout>

@@ -2,7 +2,7 @@
 title: A home for projects & field notes
 description: A small, static corner of the web for software, systems, and sharing what I learn.
 technologies: [Astro, Markdown, Docker]
-featured: true
+featured: false
 source: https://github.com/GhadiSaab/Housy
 ---
 
