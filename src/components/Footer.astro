@@ -1,0 +1,11 @@
+---
+import { siteConfig } from '../config';
+---
+<footer class="site-footer">
+  <p><span class="footer-mark" aria-hidden="true">⌁</span> Built with care. Hosted at home.</p>
+  <nav aria-label="Footer navigation">
+    <a href={siteConfig.github}>GitHub <span aria-hidden="true">↗</span></a>
+    {siteConfig.email && <a href={`mailto:${siteConfig.email}`}>Get in touch <span aria-hidden="true">↗</span></a>}
+    <a href="/rss.xml">RSS <span aria-hidden="true">↗</span></a>
+  </nav>
+</footer>

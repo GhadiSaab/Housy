@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { project: CollectionEntry<'projects'>; index?: number }
+const { project, index = 0 } = Astro.props;
+const homelab = project.id === 'homelab';
+---
+<article class="project-card">
+  <div class="project-drawing" aria-hidden="true">
+    <svg viewBox="0 0 90 88" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round">
+      {homelab ? <>
+        <path d="m16 21 46-6 14 8-46 7-14-9ZM16 21v47l14 9V30m0 47 46-7V23M16 39l14 8 46-7M16 56l14 8 46-7M38 37l14-2M38 54l14-2M38 70l14-2" />
+        <path d="m67 32 3-.5m-3 17 3-.5m-3 17 3-.5M9 75h10m13 6h47" opacity=".45" />
+      </> : <>
+        <path d="M13 16h60v55H13zM13 28h60M18 22h2m4 0h2m4 0h2M22 39h30M22 46h41M22 53h41M22 60h23" />
+        <path d="m73 16 5 5v55H18l-5-5M73 71l5 5" opacity=".55" />
+        <path d="m55 56 5-4 5 4m-5-4v12" />
+      </>}
+    </svg>
+  </div>
+  <div class="project-copy">
+    <p class="eyebrow project-number">PROJECT {String(index + 1).padStart(2, '0')}</p>
+    <h3><a class="project-link" href={`/projects/${project.id}/`}>{project.data.title}<span class="card-arrow" aria-hidden="true">↗</span></a></h3>
+    <p>{project.data.description}</p>
+    <ul class="tags" aria-label="Technologies">{project.data.technologies.map(tag => <li>{tag}</li>)}</ul>
+  </div>
+</article>

@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostRow from '../../components/PostRow.astro';
+import { getPosts } from '../../lib/content';
+const posts = await getPosts();
+---
+<BaseLayout title="Field notes — Ghadi" description="Notes on software engineering, SRE, infrastructure, and learning by building.">
+  <header class="page-header"><p class="eyebrow">LEARNING IN PUBLIC</p><h1>Field notes<span class="heading-dot">.</span></h1><p>Software, infrastructure, and the space in between.<br />Notes from building things and figuring them out.</p></header>
+  <div class="writing-list">{posts.length > 0 ? posts.map(post => <PostRow post={post} />) : <div class="empty-notes large-empty"><span class="note-symbol" aria-hidden="true">✎</span><div><h2>Every notebook starts somewhere.</h2><p>The first field notes are on their way. Until then, you can explore my <a href="/projects/">projects</a> or find me on <a href="https://github.com/GhadiSaab">GitHub ↗</a>.</p><a class="text-link" href="/rss.xml">Follow the RSS feed <span aria-hidden="true">↗</span></a></div></div>}</div>
+</BaseLayout>

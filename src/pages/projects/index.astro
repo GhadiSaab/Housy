@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getProjects } from '../../lib/content';
+const projects = await getProjects();
+---
+<BaseLayout title="Projects — Ghadi" description="Software and infrastructure projects by Ghadi. The systems, the decisions, and the lessons behind them.">
+  <header class="page-header"><p class="eyebrow">A FEW THINGS I’VE BUILT</p><h1>Selected work<span class="heading-dot">.</span></h1><p>From code to the systems around it.<br />A closer look at what I’m building and why.</p></header>
+  <div class="project-list index-projects">{projects.map((project, index) => <ProjectCard project={project} index={index} />)}</div>
+</BaseLayout>

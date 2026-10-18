@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import InfrastructureSketch from '../components/InfrastructureSketch.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import PostRow from '../components/PostRow.astro';
+import { getPosts, getProjects } from '../lib/content';
+import { siteConfig } from '../config';
+const [projects, posts] = await Promise.all([getProjects(), getPosts()]);
+const selected = projects.filter(p => p.data.featured).slice(0, 3);
+---
+<BaseLayout title={siteConfig.title} description={siteConfig.description}>
+  <section class="hero" aria-labelledby="intro-title">
+    <div class="hero-copy">
+      <p class="eyebrow hero-eyebrow"><span class="small-star" aria-hidden="true">✳</span> SOFTWARE ENGINEER / SRE & INFRASTRUCTURE</p>
+      <h1 id="intro-title">Software. Systems.<br /><em>Reliability.</em></h1>
+      <p class="hero-description">I build software and the infrastructure<br class="desktop-break" /> that keeps it running.</p>
+      <div class="hero-links"><a class="text-link" href="/projects/">Explore my work <span aria-hidden="true">↗</span></a><a class="text-link secondary-link" href="/writing/">Read field notes <span aria-hidden="true">↗</span></a></div>
+    </div>
+    <InfrastructureSketch />
+  </section>
+
+  <section class="home-section" aria-labelledby="work-heading">
+    <div class="section-heading"><h2 id="work-heading"><span class="section-number">01 /</span> Selected work</h2><a class="quiet-link" href="/projects/">All projects <span aria-hidden="true">↗</span></a></div>
+    <div class="project-list">{selected.map((project, index) => <ProjectCard project={project} index={index} />)}</div>
+  </section>
+
+  <section class="home-section writing-section" aria-labelledby="writing-heading">
+    <div class="section-heading"><h2 id="writing-heading"><span class="section-number">02 /</span> Field notes</h2><a class="quiet-link" href="/writing/">All writing <span aria-hidden="true">↗</span></a></div>
+    <p class="section-intro">Things I’m building, questions I’m exploring, and lessons along the way.</p>
+    {posts.length > 0 ? posts.slice(0, 3).map(post => <PostRow post={post} />) : <div class="empty-notes"><span class="note-symbol" aria-hidden="true">✎</span><div><h3>Notes are taking shape.</h3><p>The first field notes are on their way. In the meantime, take a look around the <a href="/projects/">projects</a>.</p></div></div>}
+  </section>
+
+  <aside class="home-aside"><p>A little more about the person behind the systems.</p><a class="text-link" href="/about/">Meet Ghadi <span aria-hidden="true">↗</span></a></aside>
+</BaseLayout>
