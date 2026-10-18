@@ -805,6 +805,24 @@ img {
   border-top: 1px solid var(--rule);
   margin: 35px 0;
 }
+.prose img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--paper);
+}
+.prose figure {
+  margin: 32px 0;
+}
+.prose figcaption {
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--muted);
+  text-align: center;
+}
 .article-end {
   display: flex;
   justify-content: space-between;
