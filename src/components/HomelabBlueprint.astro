@@ -1,17 +1,47 @@
 ---
-import { homelabGroups, containerCount } from '../data/homelab';
+import { containerCount } from '../data/homelab';
 ---
 <figure class="homelab-blueprint">
-  <div class="blueprint-edge" aria-label="Visitors connect through Cloudflare and a tunnel">
-    <span>Visitors</span><span aria-hidden="true">→</span><span>Cloudflare</span><span aria-hidden="true">→</span><span>Tunnel</span>
+  <div class="service-constellation" role="img" aria-label="A home k3s cluster connects media, AI, monitoring, delivery and platform services, with Cloudflare at the edge.">
+    <svg viewBox="0 0 550 340" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <g class="constellation-orbit" stroke="currentColor" stroke-dasharray="2 7">
+        <path d="M176 92C267 29 359 92 338 194S219 282 168 230" />
+        <path d="M152 150C127 218 204 291 291 251" />
+      </g>
+      <g class="constellation-links" stroke="currentColor" stroke-width="1.15" stroke-linecap="round">
+        <path d="M69 78C101 111 151 123 197 150" />
+        <path d="M66 226C115 216 150 199 192 188" />
+        <path d="M289 162C330 152 349 140 378 140" />
+        <path d="M279 202C319 235 340 256 378 258" />
+        <path d="M240 222C240 249 240 261 240 284" />
+        <path class="constellation-edge" d="M279 139C314 104 343 47 391 47" stroke-dasharray="3 5" />
+      </g>
+      <g fill="currentColor">
+        <circle cx="197" cy="150" r="2.4" /><circle cx="192" cy="188" r="2.4" />
+        <circle cx="289" cy="162" r="2.4" /><circle cx="279" cy="202" r="2.4" />
+        <circle cx="240" cy="222" r="2.4" /><circle cx="279" cy="139" r="2.4" />
+      </g>
+      <g stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="240" cy="172" r="50" /><circle cx="240" cy="172" r="42" class="constellation-inner-ring" />
+        <rect x="227" y="146" width="26" height="8" rx="2" /><rect x="227" y="157" width="26" height="8" rx="2" /><rect x="227" y="168" width="26" height="8" rx="2" />
+        <path d="M232 150h9m-9 11h9m-9 11h9m7-22h.1m-.1 11h.1m-.1 11h.1" />
+        <circle cx="50" cy="66" r="22" /><rect x="39" y="57" width="22" height="18" rx="2" />
+        <path d="m40 72 6-7 5 4 4-6 5 9" /><circle cx="46" cy="62" r="1.3" />
+        <circle cx="46" cy="232" r="22" /><rect x="35" y="225" width="22" height="16" rx="3" />
+        <path d="M46 220v5m-15 6h4m22 0h4m-18 5h6" /><circle cx="46" cy="218" r="2" /><path d="M41 230h.1m9.9 0h.1" stroke-width="2.5" />
+        <circle cx="400" cy="140" r="22" /><path d="M396 130h8l2 4 4 2v8l-4 2-2 4h-8l-2-4-4-2v-8l4-2Z" /><circle cx="400" cy="140" r="3.5" />
+        <circle cx="400" cy="258" r="22" /><circle cx="394" cy="249" r="3" /><circle cx="407" cy="249" r="3" /><circle cx="394" cy="267" r="3" /><path d="M394 252v12m0-6c9 0 13-1 13-6" />
+        <circle cx="240" cy="306" r="22" /><path d="M232 295h12l5 5v16h-17Zm12 0v6h5m-13 8 3 3 6-6" />
+        <path d="M400 61h27c10 0 11-15 1-17-2-13-20-16-26-4-10-2-17 13-7 19 1 1 3 2 5 2Z" />
+      </g>
+    </svg>
+    <span class="constellation-hub">home / k3s</span>
+    <span class="constellation-label constellation-media"><strong>Media</strong><span>Immich · Jellyfin</span></span>
+    <span class="constellation-label constellation-ai"><strong>AI & tools</strong><span>Open WebUI · SearXNG</span></span>
+    <span class="constellation-label constellation-monitoring"><strong>Monitoring</strong><span>Grafana · Loki</span></span>
+    <span class="constellation-label constellation-delivery"><strong>Delivery</strong><span>GitHub · Flux</span></span>
+    <span class="constellation-label constellation-platform"><strong>Platform</strong><span>DNS · certificates</span></span>
+    <span class="constellation-label constellation-cloudflare"><strong>Cloudflare</strong></span>
   </div>
-  <div class="blueprint-down" aria-hidden="true">↓</div>
-  <div class="blueprint-cluster">
-    <div class="blueprint-heading"><span>⌂ &nbsp; HOME / k3s</span><span>{containerCount} containers</span></div>
-    <div class="blueprint-groups">
-      {homelabGroups.map(group => <div class="blueprint-group"><div><strong>{group.name}</strong><span>{group.count}</span></div><p>{group.summary}</p></div>)}
-    </div>
-    <div class="blueprint-git"><span aria-hidden="true">↳</span> GitHub → Flux → desired state</div>
-  </div>
-  <figcaption><span>Built here. Hosted at home.</span><a href="/projects/homelab/#containers">Explore the containers ↗</a></figcaption>
+  <figcaption><a href="/projects/homelab/#containers">{containerCount} containers · Explore the full homelab <span aria-hidden="true">↗</span></a></figcaption>
 </figure>
