@@ -1,4 +1,4 @@
-name: Publish website image
+name: Publish and deploy website
 
 on:
   push:
@@ -53,6 +53,9 @@ jobs:
     permissions:
       contents: read
       packages: write
+    outputs:
+      image: ${{ steps.image.outputs.name }}
+      digest: ${{ steps.build.outputs.digest }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
@@ -84,3 +87,35 @@ jobs:
           DIGEST: ${{ steps.build.outputs.digest }}
         run: |
           printf 'Deploy image: `%s@%s`\n' "$IMAGE" "$DIGEST" >> "$GITHUB_STEP_SUMMARY"
+
+  deploy:
+    needs: publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out deployment script
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: website
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+      - name: Check out production GitOps repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: GhadiSaab/flux-homelab
+          ref: main
+          path: gitops
+          fetch-depth: 0
+          ssh-key: ${{ secrets.GITOPS_DEPLOY_KEY }}
+      - name: Update production image
+        env:
+          GITOPS_DIR: ${{ github.workspace }}/gitops
+          DEPLOY_IMAGE: ${{ needs.publish.outputs.image }}@${{ needs.publish.outputs.digest }}
+          SOURCE_SHA: ${{ github.sha }}
+          SOURCE_REPOSITORY: https://github.com/GhadiSaab/Housy.git
+        run: |
+          git -C "$GITOPS_DIR" config user.name 'housy-deploy[bot]'
+          git -C "$GITOPS_DIR" config user.email 'housy-deploy@users.noreply.github.com'
+          node website/scripts/deploy.mjs | tee -a "$GITHUB_STEP_SUMMARY"

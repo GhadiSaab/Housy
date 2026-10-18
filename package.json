@@ -11,7 +11,7 @@
     "build": "astro build",
     "preview": "astro preview --host 0.0.0.0",
     "check": "astro check",
-    "test": "node --test tests/publication.test.ts tests/theme.test.mjs",
+    "test": "node --test tests/publication.test.ts tests/theme.test.mjs tests/deploy.test.mjs",
     "test:output": "node --test tests/build-output.test.mjs",
     "test:publication": "node --test tests/publication-build.test.mjs",
     "test:server": "node --test tests/server.test.mjs",
