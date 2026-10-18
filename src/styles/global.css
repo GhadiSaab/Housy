@@ -670,41 +670,42 @@ img {
 .about-layout .text-link {
   margin-top: 9px;
 }
-.about-layout .prose h2 {
-  font-size: 24px;
-  margin-top: 34px;
-}
-.fact-sheet {
+.now-list {
   margin-top: 34px;
   border-top: 1px solid var(--rule);
   padding-top: 20px;
 }
-.about-margin .fact-sheet .eyebrow {
+.about-margin .now-list .eyebrow {
   text-align: left;
   font-size: 10px;
-  margin: 0 0 14px;
+  margin: 0 0 12px;
 }
-.fact-sheet dl {
-  display: grid;
-  grid-template-columns: 105px 1fr;
-  gap: 11px 14px;
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.6;
-}
-.fact-sheet dt {
-  font-family: var(--mono);
-  font-size: 11px;
+.now-date {
   color: var(--muted);
-  padding-top: 2px;
 }
-.fact-sheet dd {
+.now-list ul {
+  list-style: none;
   margin: 0;
+  padding: 0;
+  font-size: 13px;
+  line-height: 1.65;
   color: var(--ink);
-  overflow-wrap: anywhere;
 }
-.fact-sheet a {
+.now-list li {
+  padding: 9px 0 9px 18px;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+}
+.now-list li:last-child {
+  border-bottom: 0;
+}
+.now-list li::before {
+  content: "✳";
+  position: absolute;
+  left: 0;
   color: var(--green);
+  font-size: 10px;
+  top: 12px;
 }
 .not-found {
   padding: 95px 0 120px;
