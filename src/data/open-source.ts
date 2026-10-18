@@ -35,14 +35,6 @@ export const contributions: Contribution[] = [
     mergedAt: '2026-07-17',
   },
   {
-    project: 'let-note',
-    repo: 'laflut3/let-note',
-    about: 'A grades and timetable app for university students.',
-    change: 'Closed a server-side request forgery hole in calendar imports, where a crafted iCal URL could make the server fetch internal addresses.',
-    url: 'https://github.com/laflut3/let-note/pull/47',
-    mergedAt: '2026-05-26',
-  },
-  {
     project: 'dealve-tui',
     repo: 'kurama/dealve-tui',
     about: 'A terminal UI for browsing game deals, written in Rust.',
