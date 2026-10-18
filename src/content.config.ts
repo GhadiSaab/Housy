@@ -16,6 +16,8 @@ const posts = defineCollection({
     updatedAt: contentDate.optional(),
     tags: z.array(z.string().trim().min(1)).default([]),
     draft: z.boolean().default(false),
+    // Social preview card (1200x627 PNG under public/), from scripts/og/make-og.mjs.
+    image: z.string().startsWith('/').optional(),
   }),
 });
 

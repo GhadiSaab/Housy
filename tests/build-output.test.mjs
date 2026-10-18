@@ -37,6 +37,20 @@ test('empty writing collection remains discoverable through RSS and sitemap', ()
   assert.match(read('robots.txt'), /Sitemap: https:\/\/gsaab\.dev\/sitemap-index\.xml/);
 });
 
+test('every page has a social preview image that exists, and articles get their own', () => {
+  for (const page of textFiles().filter(path => path.endsWith('.html'))) {
+    const html = read(page);
+    if (html.includes('name="robots" content="noindex')) continue;
+    const match = html.match(/<meta property="og:image" content="https:\/\/gsaab\.dev(\/[^"]+)"/);
+    assert.ok(match, `Missing og:image in ${page}`);
+    assert.ok(existsSync(join(dist, match[1])), `og:image ${match[1]} in ${page} does not exist`);
+    assert.match(html, /<meta name="twitter:card" content="summary_large_image"/, `Small preview card in ${page}`);
+  }
+  const article = read('writing/renting-a-brain-in-the-cloud/index.html');
+  assert.match(article, /<meta property="og:type" content="article"/);
+  assert.match(article, /og:image" content="https:\/\/gsaab\.dev\/og\/renting-a-brain-in-the-cloud\.png"/);
+});
+
 test('every local page or asset link resolves to a generated file', () => {
   for (const page of textFiles().filter(path => path.endsWith('.html'))) {
     for (const [, href] of read(page).matchAll(/(?:href|src)="(\/[^"#?]*)/g)) {

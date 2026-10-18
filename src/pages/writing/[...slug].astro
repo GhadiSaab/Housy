@@ -10,6 +10,6 @@ interface Props { post: CollectionEntry<'posts'> }
 const { post } = Astro.props;
 const { Content } = await render(post);
 ---
-<ArticleLayout title={post.data.title} description={post.data.description} publishedAt={post.data.publishedAt} updatedAt={post.data.updatedAt} tags={post.data.tags}>
+<ArticleLayout title={post.data.title} description={post.data.description} publishedAt={post.data.publishedAt} updatedAt={post.data.updatedAt} tags={post.data.tags} image={post.data.image}>
   <Content />
 </ArticleLayout>

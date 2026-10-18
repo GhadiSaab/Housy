@@ -670,6 +670,11 @@ img {
 .about-layout .text-link {
   margin-top: 9px;
 }
+.about-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+}
 .now-list {
   margin-top: 34px;
   border-top: 1px solid var(--rule);

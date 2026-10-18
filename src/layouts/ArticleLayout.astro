@@ -3,12 +3,12 @@ import BaseLayout from './BaseLayout.astro';
 import { formatDate } from '../lib/content';
 interface Props {
   title: string; description: string; publishedAt?: Date; updatedAt?: Date;
-  tags?: string[]; kind?: 'project' | 'post';
+  tags?: string[]; kind?: 'project' | 'post'; image?: string;
 }
-const { title, description, publishedAt, updatedAt, tags = [], kind = 'post' } = Astro.props;
+const { title, description, publishedAt, updatedAt, tags = [], kind = 'post', image } = Astro.props;
 const back = kind === 'project' ? { href: '/projects/', label: 'All projects' } : { href: '/writing/', label: 'All field notes' };
 ---
-<BaseLayout title={`${title} — Ghadi`} description={description}>
+<BaseLayout title={`${title} — Ghadi`} description={description} image={image} imageAlt={image ? title : undefined} type={kind === 'post' ? 'article' : 'website'} publishedAt={publishedAt}>
   <article class="article-wrap">
     <a class="back-link eyebrow" href={back.href}><span aria-hidden="true">←</span> {back.label}</a>
     <header class="article-header">
