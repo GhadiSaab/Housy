@@ -14,9 +14,9 @@ draft: false
   document.querySelectorAll('.sketch-diagram').forEach(function(el){ io.observe(el); });
 </script>
 
-I wanted my own AI assistant. Not someone else's API, with someone else's rules and someone else's monthly bill. My own model, running on a computer I controlled, that I could plug into my coding tools like any other service.
+I wanted my own AI assistant. Not someone else's API, with someone else's limits and someone else's monthly bill. My own model, running on a computer I controlled, that I could plug into my coding tools like any other service.
 
-The model is **Qwen3.8-27B-Uncensored-GGUF**, a 27-billion-parameter community release built on the Qwen3.8 architecture, with the usual safety fine-tuning stripped out. I run the Q5_K_M quantization, a 19.5 GB file. It has a hybrid state-space and attention architecture, a native context length of 262,144 tokens, and a built-in multi-token-prediction head (more on that shortly). Running my own copy meant no one else's content policy sat between me and my own tools.
+The model is **Qwen3.8 27B**, a 27-billion-parameter open-weights model, which I run as a GGUF file in the Q5_K_M quantization: 19.5 GB. It has a hybrid state-space and attention architecture, a native context length of 262,144 tokens, and a built-in multi-token-prediction head (more on that shortly).
 
 A model that size needs a very specific, very expensive piece of hardware: a graphics card with a lot of memory, the kind normally bought by companies training the next big thing, not by one person for a side project. Buying one outright didn't make sense, so I rented one by the hour: a 32 GB NVIDIA V100, for about $0.21 an hour, from [Vast.ai](https://vast.ai), a marketplace where people with spare GPU capacity list it for anyone to use.
 
@@ -214,7 +214,7 @@ If you've got this same model on the same class of card, a 32 GB V100, here's th
 
 ```
 llama-server \
-  --model Qwen3.8-27B-Uncensored-Q5_K_M.gguf \
+  --model Qwen3.8-27B-Q5_K_M.gguf \
   --spec-type draft-mtp \
   -ctk q8_0 -ctv q8_0 \
   -c 262144 \
