@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import InfrastructureSketch from '../components/InfrastructureSketch.astro';
+import HomelabBlueprint from '../components/HomelabBlueprint.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import PostRow from '../components/PostRow.astro';
 import { getPosts, getProjects, formatDate } from '../lib/content';
@@ -17,7 +17,7 @@ const selected = projects.filter(p => p.data.featured).slice(0, 3);
       <p class="hero-description">I build software and the infrastructure<br class="desktop-break" /> that keeps it running.</p>
       <div class="hero-links"><a class="text-link" href="/projects/">Explore my work <span aria-hidden="true">↗</span></a><a class="text-link secondary-link" href="/writing/">Read field notes <span aria-hidden="true">↗</span></a></div>
     </div>
-    <InfrastructureSketch />
+    <HomelabBlueprint />
   </section>
 
   <section class="home-section" aria-labelledby="work-heading">

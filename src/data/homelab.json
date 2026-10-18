@@ -1,0 +1,441 @@
+{
+  "capturedAt": "2026-10-18",
+  "workloads": [
+    {
+      "namespace": "adguard",
+      "workload": "adguard",
+      "containers": [
+        {
+          "name": "adguard",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "cert-manager",
+      "workload": "cert-manager",
+      "containers": [
+        {
+          "name": "cert-manager-controller",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "cert-manager",
+      "workload": "cert-manager-cainjector",
+      "containers": [
+        {
+          "name": "cert-manager-cainjector",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "cert-manager",
+      "workload": "cert-manager-webhook",
+      "containers": [
+        {
+          "name": "cert-manager-webhook",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "cloudflared",
+      "workload": "cloudflared",
+      "containers": [
+        {
+          "name": "cloudflared",
+          "replicas": 2
+        }
+      ]
+    },
+    {
+      "namespace": "cnpg-system",
+      "workload": "cnpg-cloudnative-pg",
+      "containers": [
+        {
+          "name": "manager",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "flux-system",
+      "workload": "helm-controller",
+      "containers": [
+        {
+          "name": "manager",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "flux-system",
+      "workload": "kustomize-controller",
+      "containers": [
+        {
+          "name": "manager",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "flux-system",
+      "workload": "notification-controller",
+      "containers": [
+        {
+          "name": "manager",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "flux-system",
+      "workload": "sealed-secrets-controller",
+      "containers": [
+        {
+          "name": "controller",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "flux-system",
+      "workload": "source-controller",
+      "containers": [
+        {
+          "name": "manager",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "freellmapi",
+      "workload": "freellmapi",
+      "containers": [
+        {
+          "name": "freellmapi",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "immich",
+      "workload": "immich-database",
+      "containers": [
+        {
+          "name": "postgres",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "immich",
+      "workload": "immich-machine-learning",
+      "containers": [
+        {
+          "name": "main",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "immich",
+      "workload": "immich-server",
+      "containers": [
+        {
+          "name": "main",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "immich",
+      "workload": "immich-valkey",
+      "containers": [
+        {
+          "name": "main",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "jellyfin",
+      "workload": "jellyfin",
+      "containers": [
+        {
+          "name": "main",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "workload": "coredns",
+      "containers": [
+        {
+          "name": "coredns",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "workload": "local-path-provisioner",
+      "containers": [
+        {
+          "name": "local-path-provisioner",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "workload": "metrics-server",
+      "containers": [
+        {
+          "name": "metrics-server",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "workload": "svclb-traefik-e794da9c",
+      "containers": [
+        {
+          "name": "lb-tcp-443",
+          "replicas": 1
+        },
+        {
+          "name": "lb-tcp-80",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "kube-system",
+      "workload": "traefik",
+      "containers": [
+        {
+          "name": "traefik",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "loki",
+      "workload": "alloy",
+      "containers": [
+        {
+          "name": "alloy",
+          "replicas": 1
+        },
+        {
+          "name": "config-reloader",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "loki",
+      "workload": "loki",
+      "containers": [
+        {
+          "name": "loki",
+          "replicas": 1
+        },
+        {
+          "name": "loki-sc-rules",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "loki",
+      "workload": "loki-canary",
+      "containers": [
+        {
+          "name": "loki-canary",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "loki",
+      "workload": "loki-chunks-cache",
+      "containers": [
+        {
+          "name": "exporter",
+          "replicas": 1
+        },
+        {
+          "name": "memcached",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "loki",
+      "workload": "loki-results-cache",
+      "containers": [
+        {
+          "name": "exporter",
+          "replicas": 1
+        },
+        {
+          "name": "memcached",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "mcp-github",
+      "workload": "mcpo-github",
+      "containers": [
+        {
+          "name": "mcpo-github",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "mcp-kubernetes",
+      "workload": "kubernetes-mcp-server",
+      "containers": [
+        {
+          "name": "kubernetes-mcp-server",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "mcp-kubernetes",
+      "workload": "mcpo-kubernetes",
+      "containers": [
+        {
+          "name": "mcpo-kubernetes",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "monitoring-ns",
+      "workload": "alertmanager-kube-prometheus-stack-alertmanager",
+      "containers": [
+        {
+          "name": "alertmanager",
+          "replicas": 1
+        },
+        {
+          "name": "config-reloader",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "monitoring-ns",
+      "workload": "kube-prometheus-stack-grafana",
+      "containers": [
+        {
+          "name": "grafana",
+          "replicas": 1
+        },
+        {
+          "name": "grafana-sc-dashboard",
+          "replicas": 1
+        },
+        {
+          "name": "grafana-sc-datasources",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "monitoring-ns",
+      "workload": "kube-prometheus-stack-kube-state-metrics",
+      "containers": [
+        {
+          "name": "kube-state-metrics",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "monitoring-ns",
+      "workload": "kube-prometheus-stack-operator",
+      "containers": [
+        {
+          "name": "kube-prometheus-stack",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "monitoring-ns",
+      "workload": "kube-prometheus-stack-prometheus-node-exporter",
+      "containers": [
+        {
+          "name": "node-exporter",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "monitoring-ns",
+      "workload": "prometheus-kube-prometheus-stack-prometheus",
+      "containers": [
+        {
+          "name": "config-reloader",
+          "replicas": 1
+        },
+        {
+          "name": "prometheus",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "omni-agent",
+      "workload": "omni-agent",
+      "containers": [
+        {
+          "name": "omni-agent",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "open-webui",
+      "workload": "open-webui",
+      "containers": [
+        {
+          "name": "open-webui",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "portfolio",
+      "workload": "portfolio",
+      "containers": [
+        {
+          "name": "website",
+          "replicas": 1
+        }
+      ]
+    },
+    {
+      "namespace": "searxng",
+      "workload": "searxng",
+      "containers": [
+        {
+          "name": "searxng",
+          "replicas": 1
+        }
+      ]
+    }
+  ]
+}

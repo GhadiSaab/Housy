@@ -1,0 +1,17 @@
+---
+import { homelabGroups, containerCount } from '../data/homelab';
+---
+<figure class="homelab-blueprint">
+  <div class="blueprint-edge" aria-label="Visitors connect through Cloudflare and a tunnel">
+    <span>Visitors</span><span aria-hidden="true">→</span><span>Cloudflare</span><span aria-hidden="true">→</span><span>Tunnel</span>
+  </div>
+  <div class="blueprint-down" aria-hidden="true">↓</div>
+  <div class="blueprint-cluster">
+    <div class="blueprint-heading"><span>⌂ &nbsp; HOME / k3s</span><span>{containerCount} containers</span></div>
+    <div class="blueprint-groups">
+      {homelabGroups.map(group => <div class="blueprint-group"><div><strong>{group.name}</strong><span>{group.count}</span></div><p>{group.summary}</p></div>)}
+    </div>
+    <div class="blueprint-git"><span aria-hidden="true">↳</span> GitHub → Flux → desired state</div>
+  </div>
+  <figcaption><span>Built here. Hosted at home.</span><a href="/projects/homelab/#containers">Explore the containers ↗</a></figcaption>
+</figure>

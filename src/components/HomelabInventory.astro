@@ -1,0 +1,15 @@
+---
+import { homelabGroups, containerCount, workloadCount, capturedAt } from '../data/homelab';
+---
+<section class="homelab-inventory" aria-labelledby="containers">
+  <h2 id="containers">Running container inventory</h2>
+  <p>{containerCount} running containers across {workloadCount} workloads. This is a snapshot from <time datetime={capturedAt}>{capturedAt}</time>, grouped by what each part does.</p>
+  <p class="inventory-note">Counts include replicas and sidecars. Completed install jobs are omitted.</p>
+  {homelabGroups.map(group => <details class="inventory-group" open>
+    <summary>{group.name}<span>{group.count} containers</span></summary>
+    <ul>{group.workloads.map(workload => <li>
+      <div class="inventory-workload"><strong>{workload.workload}</strong><span>{workload.namespace}</span></div>
+      <ul class="inventory-containers">{workload.containers.map(container => <li><code>{container.name}</code>{container.replicas > 1 && <span> × {container.replicas}</span>}</li>)}</ul>
+    </li>)}</ul>
+  </details>)}
+</section>

@@ -310,13 +310,41 @@ img {
   color: var(--secondary-link);
   border-color: var(--secondary-rule);
 }
-.infrastructure-figure {
+.homelab-blueprint {
   color: var(--green);
   width: 100%;
-  max-width: 425px;
-  margin: 24px -6px 0 6px;
-  transform: rotate(-1deg);
+  max-width: 365px;
+  margin: 0 0 0 auto;
+  font-family: var(--mono);
+  font-size: 10px;
 }
+.blueprint-edge { display: flex; align-items: center; justify-content: space-between; gap: 5px; }
+.blueprint-edge > span:nth-child(odd) { border: 1px solid var(--link-rule); border-radius: 4px; padding: 8px 10px; }
+.blueprint-down { text-align: right; padding: 3px 35px 4px; font-size: 17px; }
+.blueprint-cluster { border: 1px dashed var(--link-rule); border-radius: 8px; padding: 13px; }
+.blueprint-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; margin-bottom: 12px; }
+.blueprint-heading > span:last-child { color: var(--muted); font-size: 9px; }
+.blueprint-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.blueprint-group { border: 1px solid var(--rule); border-radius: 4px; padding: 9px; }
+.blueprint-group > div { display: flex; align-items: baseline; justify-content: space-between; gap: 4px; }
+.blueprint-group strong { font-weight: 400; font-size: 10px; }
+.blueprint-group > div > span { color: var(--muted); font-size: 9px; }
+.blueprint-group p { font-family: var(--sans); font-size: 10px; line-height: 1.55; color: var(--secondary); margin-top: 6px; }
+.blueprint-git { margin-top: 12px; color: var(--muted); font-size: 9px; }
+.homelab-blueprint figcaption { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-top: 11px; color: var(--muted); font-size: 8px; line-height: 1.7; }
+.homelab-blueprint figcaption a { color: var(--green); }
+.homelab-inventory { margin-top: 40px; }
+.homelab-inventory .inventory-note { color: var(--muted); font-size: 13px; }
+.inventory-group { border-top: 1px solid var(--rule); padding: 16px 0; }
+.inventory-group summary { cursor: pointer; color: var(--ink); font-family: var(--sans); font-size: 15px; }
+.inventory-group summary > span { float: right; color: var(--muted); font-family: var(--mono); font-size: 11px; }
+.prose .inventory-group > ul { list-style: none; padding: 0; margin: 16px 0 0; }
+.prose .inventory-group > ul > li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; padding: 10px 0; margin: 0; }
+.inventory-workload { min-width: 0; overflow-wrap: anywhere; line-height: 1.6; font-family: var(--mono); font-size: 11px; }
+.inventory-workload strong { font-weight: 400; }
+.inventory-workload > span { display: block; color: var(--muted); font-size: 10px; }
+.prose .inventory-containers { list-style: none; padding: 0; margin: 0; font-size: 11px; overflow-wrap: anywhere; }
+.prose .inventory-containers code { font-size: 10px; }
 .sketch-guides {
   opacity: 0.35;
 }
@@ -664,7 +692,7 @@ img {
   font-size: 8px;
   margin-top: 9px;
 }
-.about-margin .infrastructure-figure {
+.about-margin .homelab-blueprint {
   margin: 0;
 }
 .about-layout .text-link {
@@ -940,9 +968,7 @@ img {
   .text-link {
     font-size: 14px;
   }
-  .infrastructure-figure {
-    margin-left: 4px;
-  }
+  .homelab-blueprint { max-width: 340px; }
   .project-copy h3 {
     font-size: 22px;
   }
@@ -1010,11 +1036,7 @@ img {
   .text-link {
     font-size: 15px;
   }
-  .hero .infrastructure-figure {
-    max-width: 330px;
-    margin: 23px auto -2px;
-    transform: rotate(-1deg);
-  }
+  .hero .homelab-blueprint { max-width: 350px; margin: 34px auto 8px; }
   .section-heading {
     gap: 12px;
     margin-bottom: 22px;

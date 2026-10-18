@@ -3,6 +3,7 @@ import { render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import ArticleLayout from '../../layouts/ArticleLayout.astro';
 import { getProjects } from '../../lib/content';
+import HomelabInventory from '../../components/HomelabInventory.astro';
 export async function getStaticPaths() {
   return (await getProjects()).map(project => ({ params: { slug: project.id }, props: { project } }));
 }
@@ -12,5 +13,6 @@ const { Content } = await render(project);
 ---
 <ArticleLayout title={project.data.title} description={project.data.description} tags={project.data.technologies} kind="project">
   <Content />
+  {project.id === 'homelab' && <HomelabInventory />}
   {(project.data.source || project.data.live) && <div class="project-external">{project.data.source && <a href={project.data.source}>Source code ↗</a>}{project.data.live && <a href={project.data.live}>Visit project ↗</a>}</div>}
 </ArticleLayout>

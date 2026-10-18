@@ -1,0 +1,60 @@
+{
+  "custom": {
+    "name": "Housy website protection",
+    "kind": "zone",
+    "phase": "http_request_firewall_custom",
+    "rules": [
+      {
+        "ref": "housy_rate_limit_scope",
+        "description": "Housy: exclude other application hosts from the website rate limit",
+        "expression": "http.host ne \"gsaab.dev\"",
+        "action": "skip",
+        "action_parameters": { "phases": ["http_ratelimit"] },
+        "logging": { "enabled": true },
+        "enabled": true
+      },
+      {
+        "ref": "housy_static_site_guard",
+        "description": "Housy: reject write methods and common credential or CMS probes",
+        "expression": "(http.host eq \"gsaab.dev\" and (not http.request.method in {\"GET\" \"HEAD\"} or starts_with(lower(http.request.uri.path), \"/.git\") or starts_with(lower(http.request.uri.path), \"/.env\") or starts_with(lower(http.request.uri.path), \"/wp-admin\") or lower(http.request.uri.path) in {\"/wp-login.php\" \"/xmlrpc.php\" \"/phpmyadmin\"}))",
+        "action": "block",
+        "enabled": true
+      }
+    ]
+  },
+  "rateLimit": {
+    "name": "Housy website rate limit",
+    "kind": "zone",
+    "phase": "http_ratelimit",
+    "rules": [
+      {
+        "ref": "housy_per_visitor_rate",
+        "description": "Housy: 100 requests per 10 seconds per IP; verified bots excluded",
+        "expression": "(starts_with(http.request.uri.path, \"/\") and not cf.client.bot)",
+        "action": "block",
+        "ratelimit": {
+          "characteristics": ["cf.colo.id", "ip.src"],
+          "period": 10,
+          "requests_per_period": 100,
+          "mitigation_timeout": 10
+        },
+        "enabled": true
+      }
+    ]
+  },
+  "managed": {
+    "name": "Housy managed WAF",
+    "kind": "zone",
+    "phase": "http_request_firewall_managed",
+    "rules": [
+      {
+        "ref": "housy_free_managed_waf",
+        "description": "Housy: Cloudflare Managed Free Ruleset",
+        "expression": "http.host eq \"gsaab.dev\"",
+        "action": "execute",
+        "action_parameters": { "id": "77454fe2d30c4220b5701f6fdfb893ba" },
+        "enabled": true
+      }
+    ]
+  }
+}

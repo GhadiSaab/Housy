@@ -9,3 +9,5 @@
 !public/**
 !deploy/
 !deploy/nginx.conf
+!scripts/
+!scripts/security-headers.mjs
