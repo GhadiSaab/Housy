@@ -5,7 +5,7 @@ export default defineConfig({
   site: 'https://gsaab.dev',
   output: 'static',
   trailingSlash: 'always',
-  integrations: [sitemap({ filter: page => !new URL(page).pathname.startsWith('/404') })],
+  integrations: [sitemap({ filter: page => !/^\/(404|p\/)/.test(new URL(page).pathname) })],
   markdown: {
     shikiConfig: {
       themes: { light: 'github-light', dark: 'github-dark' },

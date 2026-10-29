@@ -33,4 +33,18 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { posts, projects };
+// Private take-home answers, synced at build time by scripts/takehome-sync.mjs (gitignored).
+const takehome = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/takehome' }),
+  schema: z.object({
+    label: z.string(),
+    title: z.string(),
+    tldr: z.string(),
+    part: z.string(),
+    partLabel: z.string(),
+    order: z.number(),
+    question: z.string(),
+  }),
+});
+
+export const collections = { posts, projects, takehome };

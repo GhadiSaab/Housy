@@ -1,0 +1,42 @@
+---
+import { Code } from 'astro:components';
+import TakehomeLayout from '../../../layouts/TakehomeLayout.astro';
+import { takehome } from '../../../lib/takehome';
+
+export function getStaticPaths() {
+  return takehome ? [{ params: { slug: takehome.site.slug } }] : [];
+}
+
+const DIRS: Record<string, { title: string; about: string; run?: string }> = {
+  'email-auth': { title: 'Email authentication on gsaab.dev', about: 'Live DNS records and real message headers behind Q2.' },
+  'adr-example': { title: 'A real ADR', about: 'Barenetes PR #82, written up as an Architecture Decision Record (Q4).' },
+  'docs-checks': { title: 'Runbook CI check', about: 'Fails the build if an alert has no runbook, or links to one that does not exist (Q4).', run: 'python -m pytest -q tests' },
+  'api-client': { title: 'Shared IT API client', about: 'Caches tokens, refreshes before expiry, retries a 401 once, never retries a 403, refuses redirects (S1).', run: 'python -m pytest -q tests' },
+  'hr_transform': { title: 'HR \u2192 IdP script, corrected', about: 'The corrected transform, the original script from the task (for the before/after), and 16 tests (I2).', run: 'python -m pytest -q tests' },
+  'policies': { title: 'Access policy as code', about: 'RBAC + ABAC + separation of duties + JIT in one Rego policy (Q5).', run: 'opa test . -v' },
+};
+const groups = [...new Set(takehome!.code.map(f => f.dir))].map(dir => ({
+  dir, meta: DIRS[dir] ?? { title: dir, about: '' },
+  files: takehome!.code.filter(f => f.dir === dir && f.path !== `${dir}/requirements.txt`),
+}));
+---
+<TakehomeLayout title={`Code & artifacts — ${takehome!.site.title}`} description="Code, tests and raw artifacts behind the answers." current="code">
+  <div class="th-intro">
+    <p class="eyebrow">APPENDIX</p>
+    <h1>Code &amp; artifacts</h1>
+    <p class="th-lede">Everything the answers point to. The scripts and policies are tested; the DNS and header captures are real output from my own domain.</p>
+  </div>
+  {groups.map(group => (
+    <section class="th-code-group" id={group.dir}>
+      <h2>{group.meta.title}</h2>
+      <p class="th-code-about">{group.meta.about}</p>
+      {group.meta.run && <p class="th-code-run"><span class="eyebrow">RUN</span><code>{group.meta.run}</code></p>}
+      {group.files.map(file => (
+        <figure class="th-code-file" id={file.anchor}>
+          <figcaption><a href={`#${file.anchor}`}>{file.path}</a></figcaption>
+          <div class="prose"><Code code={file.content} lang={file.lang as any} themes={{ light: 'github-light', dark: 'github-dark' }} defaultColor={false} /></div>
+        </figure>
+      ))}
+    </section>
+  ))}
+</TakehomeLayout>

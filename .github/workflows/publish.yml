@@ -58,6 +58,21 @@ jobs:
       digest: ${{ steps.build.outputs.digest }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # Private take-home: pulled from a private repo with a read-only deploy key,
+      # then synced into the (gitignored) build inputs the Docker build copies.
+      - name: Check out private take-home
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: GhadiSaab/revolut-takehome
+          ref: main
+          path: .takehome
+          persist-credentials: false
+          ssh-key: ${{ secrets.TAKEHOME_DEPLOY_KEY }}
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+      - name: Sync private take-home
+        run: node scripts/takehome-sync.mjs
       - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
       - name: Set image name
         id: image

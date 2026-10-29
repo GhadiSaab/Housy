@@ -1,0 +1,355 @@
+/* Private take-home reader: a contents rail, then one answer read section by section.
+   Built only from the site's tokens (paper, ink, green, rule, wash) and its three faces. */
+
+.th-shell {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 64px;
+  padding: 44px 0 72px;
+}
+
+/* ---------- contents rail ---------- */
+.th-rail {
+  position: sticky;
+  top: 28px;
+  align-self: start;
+  max-height: calc(100svh - 56px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  font-size: 13px;
+}
+.th-rail a { text-decoration: none; color: var(--secondary); }
+.th-rail-home { display: flex; flex-direction: column; gap: 4px; padding-bottom: 20px; border-bottom: 1px solid var(--rule); }
+.th-rail-title { font-family: var(--serif); font-size: 19px; line-height: 1.3; color: var(--ink); letter-spacing: -0.2px; }
+.th-rail-home[aria-current="page"] .th-rail-title { color: var(--green); }
+.th-rail-part { margin: 0 0 8px; color: var(--muted); }
+.th-rail ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.th-rail ol a {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 8px;
+  padding: 6px 0 6px 10px;
+  margin-left: -11px;
+  border-left: 1px solid transparent;
+  line-height: 1.45;
+  transition: color .15s, border-color .15s;
+}
+.th-rail ol a:hover { color: var(--ink); border-left-color: var(--rule); }
+.th-rail ol a[aria-current="page"] { color: var(--ink); border-left-color: var(--green); }
+.th-rail-id { font-family: var(--mono); font-size: 10.5px; color: var(--muted); padding-top: 2px; }
+.th-rail ol a[aria-current="page"] .th-rail-id { color: var(--green); }
+
+.th-main { min-width: 0; max-width: 760px; }
+
+/* ---------- answer header ---------- */
+.th-header h1,
+.th-intro h1 {
+  font-family: var(--serif);
+  font-size: clamp(32px, 4vw, 44px);
+  line-height: 1.15;
+  letter-spacing: -1px;
+  color: var(--ink);
+  margin: 10px 0 22px;
+  text-wrap: balance;
+}
+.th-question {
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 12px 0;
+  margin-bottom: 26px;
+}
+.th-question summary {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .085em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+}
+.th-question summary::-webkit-details-marker { display: none; }
+.th-question summary::after { content: "+"; font-size: 13px; }
+.th-question[open] summary::after { content: "−"; }
+.th-question p { margin: 10px 0 2px; font-size: 14px; line-height: 1.8; color: var(--secondary); max-width: 68ch; }
+.th-tldr {
+  font-family: var(--serif);
+  font-size: 20px;
+  line-height: 1.6;
+  color: var(--ink);
+  border-left: 2px solid var(--green);
+  padding: 2px 0 2px 22px;
+  margin: 0 0 40px;
+  text-wrap: pretty;
+}
+.th-tldr .eyebrow { display: block; margin-bottom: 4px; }
+
+/* ---------- section steps ---------- */
+.th-steps {
+  display: flex;
+  gap: 4px 22px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--rule);
+  scroll-margin-top: 16px;
+}
+.th-steps[hidden], .th-pager[hidden] { display: none; }
+.th-step-chip {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: 10px 0 11px;
+  font: 500 13px/1.3 var(--sans);
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  text-align: left;
+  transition: color .15s, border-color .15s;
+}
+.th-step-chip:hover { color: var(--ink); }
+.th-step-chip.is-seen { color: var(--secondary); }
+.th-step-chip[aria-current="step"] { color: var(--ink); border-bottom-color: var(--green); }
+.th-step-n { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+.th-step-chip[aria-current="step"] .th-step-n { color: var(--green); }
+
+/* ---------- prose inside an answer ---------- */
+.th-prose { padding-top: 6px; }
+.is-stepped .th-step { min-height: 280px; animation: th-in .28s ease-out; }
+.is-read-all .th-step { min-height: 0; animation: none; }
+.th-step > h3:first-child { margin-top: 26px; }
+@keyframes th-in { from { transform: translateY(5px); } to { transform: none; } }
+
+/* ---------- diagrams: inline figure + full-screen viewer ---------- */
+.th-diagram { margin: 8px 0 30px; }
+.th-diagram-open {
+  position: relative;
+  display: block;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  background: #fff; /* the Excalidraw exports are drawn on white */
+  padding: 10px;
+  cursor: zoom-in;
+  transition: border-color .15s;
+}
+.th-diagram-open:hover, .th-diagram-open:focus-visible { border-color: var(--green); }
+.th-diagram-open:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+.th-prose .th-diagram img { display: block; width: 100%; height: auto; margin: 0; }
+.th-diagram-hint {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font: 500 10px/1 var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: var(--green);
+  padding: 8px 10px;
+  border-radius: 2px;
+  pointer-events: none;
+}
+.th-diagram-hint::before { content: "⤢  "; }
+.th-diagram-inline svg { display: block; width: 100%; height: auto; }
+.th-diagram-inline { margin: 4px 0 26px; }
+.th-diagram figcaption { margin-top: 8px; font-size: 12px; color: var(--muted); }
+
+html.th-viewer-open { overflow: hidden; }
+.th-viewer {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--paper);
+  color: var(--ink);
+  display: none;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
+}
+.th-viewer[open] { display: grid; }
+.th-viewer::backdrop { background: var(--paper); }
+.th-viewer-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: max(12px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) 12px max(20px, env(safe-area-inset-left));
+  border-bottom: 1px solid var(--rule);
+}
+.th-viewer-title { margin: 0; font-family: var(--serif); font-size: 17px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.th-viewer-tools { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+.th-viewer-tools button, .th-viewer-raw {
+  font: 500 13px/1 var(--sans);
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.th-viewer-tools button:hover, .th-viewer-raw:hover { background: var(--wash); }
+.th-viewer-tools button:focus-visible, .th-viewer-raw:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+.th-viewer-level { font-family: var(--mono) !important; font-size: 11px !important; min-width: 58px !important; font-variant-numeric: tabular-nums; }
+.th-viewer-close { margin-left: 6px; }
+.th-viewer-stage { position: relative; overflow: hidden; cursor: grab; touch-action: none; background: var(--wash); }
+.th-viewer-stage.is-dragging { cursor: grabbing; }
+.th-viewer-stage img { position: absolute; top: 0; left: 0; transform-origin: 0 0; max-width: none; background: #fff; box-shadow: 0 1px 0 var(--rule), 0 0 0 1px var(--rule); user-select: none; }
+.th-viewer-help { margin: 0; padding: 10px 20px max(10px, env(safe-area-inset-bottom)); font-size: 11px; color: var(--muted); text-align: center; border-top: 1px solid var(--rule); }
+@media (max-width: 680px) {
+  .th-viewer-bar { flex-wrap: wrap; gap: 10px; padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
+  .th-viewer-title { flex: 1 1 100%; font-size: 15px; }
+  .th-viewer-tools { width: 100%; }
+  .th-viewer-close { margin-left: auto; }
+  .th-viewer-raw, .th-viewer-help kbd, .th-viewer-close kbd { display: none; }
+  .th-viewer-help { padding-left: 16px; padding-right: 16px; }
+}
+.th-prose table { display: table; width: 100%; }
+.th-prose th { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 400; background: var(--wash); }
+.th-prose td { vertical-align: top; line-height: 1.65; }
+.th-prose th { white-space: nowrap; }
+.th-prose td, .th-prose th { overflow-wrap: normal; word-break: normal; }
+.prose.th-prose blockquote {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--prose-ink);
+  background: var(--wash);
+  border: 1px solid var(--rule);
+  border-left: 2px solid var(--green);
+  border-radius: 2px;
+  padding: 16px 20px;
+  margin: 24px 0;
+}
+.prose.th-prose blockquote p { margin: 0 0 10px; }
+.prose.th-prose blockquote p:last-child { margin-bottom: 0; }
+.th-prose pre { font-size: 12px; }
+
+/* ---------- pager ---------- */
+.th-pager {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  margin-top: 34px;
+  padding-top: 22px;
+  border-top: 1px solid var(--rule);
+}
+.th-pager-count { font-family: var(--mono); font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.th-btn {
+  appearance: none;
+  font: 500 13px/1.4 var(--sans);
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  padding: 11px 16px;
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+  transition: border-color .15s, background .15s;
+}
+.th-btn span:not([aria-hidden]) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.th-btn[data-prev] { justify-self: start; }
+.th-btn[data-next] { justify-self: end; }
+.th-btn:hover:not(:disabled) { border-color: var(--secondary-rule); background: var(--wash); }
+.th-btn:disabled { opacity: .35; cursor: default; }
+.th-btn-primary { background: var(--green); border-color: var(--green); color: var(--paper); }
+.th-btn-primary:hover:not(:disabled) { background: var(--green); border-color: var(--green); opacity: .9; }
+.th-btn:focus-visible, .th-step-chip:focus-visible, .th-rail a:focus-visible, .th-mode input:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+
+/* ---------- footer of an answer ---------- */
+.th-footer { margin-top: 44px; display: grid; gap: 18px; font-size: 13px; color: var(--muted); }
+.th-mode { display: flex; gap: 9px; align-items: center; cursor: pointer; width: fit-content; }
+.th-mode input { accent-color: var(--green); margin: 0; }
+.th-question-links { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; border-top: 1px solid var(--rule); padding-top: 18px; }
+.th-question-links a { color: var(--secondary-link); text-decoration: none; }
+.th-question-links a:hover { color: var(--green); }
+.th-keys { margin: 0; font-size: 11px; }
+.th-answer:not(.is-stepped) .th-keys, .is-read-all .th-keys, .th-answer:not(.is-stepped) .th-mode { display: none; }
+kbd {
+  font-family: var(--mono);
+  font-size: 10px;
+  border: 1px solid var(--rule);
+  border-bottom-width: 2px;
+  border-radius: 3px;
+  padding: 1px 5px;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+/* ---------- overview page ---------- */
+.th-intro { margin-bottom: 30px; }
+.th-lede { font-family: var(--serif); font-size: 20px; line-height: 1.6; color: var(--soft); max-width: 62ch; margin: 0 0 24px; }
+.th-howto { margin: 0 0 30px; padding-left: 20px; font-size: 14px; line-height: 1.8; color: var(--secondary); display: grid; gap: 6px; }
+.th-howto b { font-weight: 500; color: var(--ink); }
+.th-howto a, .th-intro a { color: var(--green); }
+.th-start {
+  display: inline-flex; gap: 10px; align-items: center;
+  background: var(--green); color: var(--paper) !important; text-decoration: none;
+  font-size: 14px; font-weight: 500; padding: 12px 18px; border-radius: 2px;
+}
+.th-start:hover { opacity: .9; }
+.th-toc { border-top: 1px solid var(--rule); padding-top: 26px; margin-top: 34px; }
+.th-toc-part { color: var(--muted); margin: 0; }
+.th-toc-row h3 { font-size: 24px; }
+.th-signoff { font-family: var(--serif); font-style: italic; color: var(--muted); margin-top: 30px; }
+
+/* ---------- code appendix ---------- */
+.th-code-group { border-top: 1px solid var(--rule); padding-top: 28px; margin-top: 36px; scroll-margin-top: 20px; }
+.th-code-group h2 { font-family: var(--serif); font-size: 27px; letter-spacing: -0.5px; margin: 0 0 6px; color: var(--ink); }
+.th-code-about { color: var(--secondary); font-size: 14px; margin: 0 0 12px; }
+.th-code-run { display: flex; gap: 10px; align-items: baseline; font-size: 12px; margin: 0 0 6px; }
+.th-code-run code { font-family: var(--mono); background: var(--wash); padding: 2px 6px; border-radius: 2px; }
+.th-code-file { margin: 22px 0 0; scroll-margin-top: 20px; }
+.th-code-file figcaption { font-family: var(--mono); font-size: 11px; }
+.th-code-file figcaption a { color: var(--green); text-decoration: none; }
+.th-code-file figcaption a:hover { text-decoration: underline; }
+.th-code-file .prose pre { margin: 8px 0 0; max-height: 560px; }
+.th-code-file:target figcaption a { font-weight: 500; }
+.th-code-file:target pre { border-color: var(--green); }
+
+/* ---------- small screens ---------- */
+@media (max-width: 900px) {
+  .th-shell { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-top: 24px; }
+  .th-rail { position: static; max-height: none; overflow: visible; gap: 14px; }
+  .th-rail-home { padding-bottom: 12px; }
+  .th-rail-group { display: none; }
+  .th-rail-group:has([aria-current="page"]) { display: block; }
+  .th-rail-group ol { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
+  .th-rail ol a { display: flex; white-space: nowrap; margin: 0; padding: 6px 10px; border: 1px solid var(--rule); border-radius: 2px; }
+  .th-rail ol a[aria-current="page"] { border-color: var(--green); }
+  .th-tldr { font-size: 18px; }
+}
+@media (max-width: 680px) {
+  /* Tables scroll sideways instead of squeezing words letter by letter. */
+  .th-prose table { display: block; overflow-x: auto; }
+  .th-prose td { min-width: 9em; }
+  .th-prose td:first-child { min-width: 0; }
+  .th-steps { flex-wrap: nowrap; overflow-x: auto; gap: 18px; scrollbar-width: none; }
+  .th-step-chip { white-space: nowrap; }
+  .th-pager { grid-template-columns: 1fr 1fr; }
+  .th-pager-count { display: none; }
+  .th-btn { padding: 10px 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .is-stepped .th-step { animation: none; }
+}
