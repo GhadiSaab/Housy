@@ -8,10 +8,11 @@
   },
   "scripts": {
     "dev": "astro dev --host 0.0.0.0",
-    "build": "astro build && node scripts/security-headers.mjs",
+    "build": "node scripts/takehome-sync.mjs && npm run build:site",
+    "build:site": "astro build && node scripts/security-headers.mjs",
     "preview": "astro preview --host 0.0.0.0",
     "check": "astro check",
-    "test": "node --test tests/publication.test.ts tests/theme.test.mjs tests/deploy.test.mjs tests/security-headers.test.mjs",
+    "test": "node --test tests/publication.test.ts tests/theme.test.mjs tests/deploy.test.mjs tests/security-headers.test.mjs tests/takehome-sync.test.mjs",
     "test:output": "node --test tests/build-output.test.mjs",
     "test:publication": "node --test tests/publication-build.test.mjs",
     "test:server": "node --test tests/server.test.mjs",

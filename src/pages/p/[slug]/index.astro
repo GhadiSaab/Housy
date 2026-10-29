@@ -1,0 +1,39 @@
+---
+import TakehomeLayout from '../../../layouts/TakehomeLayout.astro';
+import { getAnswers, inlineMarkdown, takehome } from '../../../lib/takehome';
+
+export function getStaticPaths() {
+  return takehome ? [{ params: { slug: takehome.site.slug } }] : [];
+}
+
+const answers = await getAnswers();
+const base = `/p/${takehome!.site.slug}`;
+const parts = [...new Set(answers.map(a => a.data.partLabel))];
+---
+<TakehomeLayout title={`${takehome!.site.title} — Ghadi`} description="Answers to the IT Platform Engineer take-home." current="home">
+  <div class="th-intro">
+    <p class="eyebrow">REVOLUT / IT PLATFORM ENGINEER</p>
+    <h1>Take-home answers</h1>
+    <p class="th-lede">Thank you for reading. Each answer opens with a two-line summary, then walks through the topic one section at a time. Every diagram, policy and script is real: the code runs, and the tests pass.</p>
+    <ul class="th-howto">
+      <li><b>One question per page,</b> one section at a time. Use <kbd>←</kbd> <kbd>→</kbd> or the buttons.</li>
+      <li><b>Prefer scrolling?</b> Tick “Show the whole answer on one page” under any answer.</li>
+      <li><b>All the code</b> is in the <a href={`${base}/code/`}>appendix</a>, with tests.</li>
+    </ul>
+    <a class="th-start" href={`${base}/${answers[0]?.id}/`}>Start with {answers[0]?.data.label}: {answers[0]?.data.title} <span aria-hidden="true">→</span></a>
+  </div>
+
+  {parts.map(part => (
+    <section class="th-toc" aria-label={part}>
+      <p class="eyebrow th-toc-part">{part.toUpperCase()}</p>
+      {answers.filter(a => a.data.partLabel === part).map(a => (
+        <article class="post-row th-toc-row">
+          <p class="eyebrow">{a.data.label}</p>
+          <h3><a href={`${base}/${a.id}/`}>{a.data.title}<span aria-hidden="true">→</span></a></h3>
+          <p set:html={inlineMarkdown(a.data.tldr)} />
+        </article>
+      ))}
+    </section>
+  ))}
+  <p class="th-signoff">— {takehome!.site.author}</p>
+</TakehomeLayout>

@@ -8,3 +8,8 @@ dist/
 /.superpowers/
 /.local/
 .DS_Store
+
+# Private take-home (synced from a private repo at build time)
+/.takehome/
+/src/content/takehome/
+/public/p/

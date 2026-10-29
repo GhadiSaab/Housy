@@ -60,3 +60,16 @@ test('every local page or asset link resolves to a generated file', () => {
     }
   }
 });
+
+test('private take-home pages stay out of the sitemap and are never indexable', () => {
+  for (const path of textFiles().filter(path => /^sitemap-\d+\.xml$/.test(path))) {
+    assert.doesNotMatch(read(path), /gsaab\.dev\/p\//, `Private page listed in ${path}`);
+  }
+  const privatePages = textFiles().filter(path => path.startsWith('p/') && path.endsWith('.html'));
+  for (const page of privatePages) {
+    assert.match(read(page), /<meta name="robots" content="noindex/, `Missing noindex in ${page}`);
+  }
+  for (const page of textFiles().filter(path => path.endsWith('.html') && !path.startsWith('p/'))) {
+    assert.doesNotMatch(read(page), /href="\/p\//, `Public page links to a private page: ${page}`);
+  }
+});

@@ -1,0 +1,68 @@
+---
+import { render } from 'astro:content';
+import TakehomeLayout from '../../../layouts/TakehomeLayout.astro';
+import { getAnswers, inlineMarkdown, takehome } from '../../../lib/takehome';
+
+export async function getStaticPaths() {
+  if (!takehome) return [];
+  const { slug } = takehome.site;
+  const answers = await getAnswers();
+  return answers.map((answer, i) => ({
+    params: { slug, question: answer.id },
+    props: { answer, prev: answers[i - 1], next: answers[i + 1] },
+  }));
+}
+
+const { answer, prev, next } = Astro.props;
+const { Content } = await render(answer);
+const inPart = (await getAnswers()).filter(a => a.data.part === answer.data.part);
+const position = inPart.findIndex(a => a.id === answer.id) + 1;
+const base = `/p/${takehome!.site.slug}`;
+const nextHref = next ? `${base}/${next.id}/` : `${base}/code/`;
+const nextLabel = next ? `${next.data.label} · ${next.data.title}` : 'Code & artifacts';
+---
+<TakehomeLayout title={`${answer.data.label}: ${answer.data.title} — Ghadi`} description={answer.data.tldr.replace(/[*`]/g, '')} current={answer.id}>
+  <article class="th-answer" data-answer>
+    <header class="th-header">
+      <p class="eyebrow">{answer.data.partLabel.toUpperCase()} / QUESTION {position} OF {inPart.length}</p>
+      <h1>{answer.data.title}</h1>
+      {answer.data.question && (
+        <details class="th-question" open>
+          <summary>The question</summary>
+          <p>{answer.data.question}</p>
+        </details>
+      )}
+      {answer.data.tldr && <p class="th-tldr"><span class="eyebrow">TL;DR</span><span set:html={inlineMarkdown(answer.data.tldr)} /></p>}
+    </header>
+
+    <nav class="th-steps" aria-label="Sections" data-steps hidden></nav>
+
+    <div class="prose th-prose" data-prose><Content /></div>
+
+    <nav class="th-pager" aria-label="Section navigation" data-pager hidden>
+      <button type="button" class="th-btn" data-prev>
+        <span aria-hidden="true">←</span> <span data-prev-label>Previous</span>
+      </button>
+      <span class="th-pager-count" data-count></span>
+      <button type="button" class="th-btn th-btn-primary" data-next>
+        <span data-next-label>Next</span> <span aria-hidden="true">→</span>
+      </button>
+    </nav>
+
+    <div class="th-footer">
+      <label class="th-mode"><input type="checkbox" data-read-all /> Show the whole answer on one page</label>
+      <div class="th-question-links">
+        {prev ? <a href={`${base}/${prev.id}/`}><span aria-hidden="true">←</span> {prev.data.label} · {prev.data.title}</a> : <a href={`${base}/`}><span aria-hidden="true">←</span> Overview</a>}
+        <a href={nextHref} data-next-question>{nextLabel} <span aria-hidden="true">→</span></a>
+      </div>
+      <p class="th-keys">Tip: use the <kbd>←</kbd> <kbd>→</kbd> keys to move between sections.</p>
+    </div>
+  </article>
+</TakehomeLayout>
+
+<script>
+  import { initStepper } from '../../../scripts/takehome-stepper';
+  import { initDiagramViewer } from '../../../scripts/takehome-diagram';
+  initStepper();
+  initDiagramViewer();
+</script>

@@ -1,0 +1,43 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { getAnswers, takehome, takehomeBase } from '../lib/takehome';
+import '../styles/takehome.css';
+
+interface Props { title: string; description: string; current?: string }
+const { title, description, current } = Astro.props;
+const answers = await getAnswers();
+const base = takehomeBase();
+const parts = [...new Set(answers.map(a => a.data.partLabel))];
+---
+<BaseLayout title={title} description={description} noindex>
+  <div class="th-shell">
+    <aside class="th-rail" aria-label="Take-home contents">
+      <a class="th-rail-home" href={`${base}/`} aria-current={current === 'home' ? 'page' : undefined}>
+        <span class="eyebrow">TAKE-HOME</span>
+        <span class="th-rail-title">{takehome!.site.title.replace(/^.*?—\s*/, '')}</span>
+      </a>
+      {parts.map(part => (
+        <div class="th-rail-group">
+          <p class="eyebrow th-rail-part">{part.toUpperCase()}</p>
+          <ol>
+            {answers.filter(a => a.data.partLabel === part).map(a => (
+              <li>
+                <a href={`${base}/${a.id}/`} aria-current={current === a.id ? 'page' : undefined}>
+                  <span class="th-rail-id">{a.data.label}</span>
+                  <span>{a.data.title}</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))}
+      <div class="th-rail-group">
+        <p class="eyebrow th-rail-part">APPENDIX</p>
+        <ol>
+          <li><a href={`${base}/code/`} aria-current={current === 'code' ? 'page' : undefined}><span class="th-rail-id">{'{ }'}</span><span>Code &amp; artifacts</span></a></li>
+        </ol>
+      </div>
+    </aside>
+    <div class="th-main"><slot /></div>
+  </div>
+</BaseLayout>
