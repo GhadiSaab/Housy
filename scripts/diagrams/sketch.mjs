@@ -19,7 +19,9 @@ export const RED = 'var(--red)'; // light #b3432b / dark #e5a08a
 
 export const FONT_SANS = 'Inter, ui-sans-serif, system-ui, sans-serif';
 export const FONT_MONO = 'JetBrains Mono, ui-monospace, Menlo, monospace';
-export const FONT_SERIF = '"Source Serif 4", Georgia, serif';
+// Single quotes inside: these values land in double-quoted SVG attributes.
+// Family names must match what global.css loads (fontsource: "Source Serif 4 Variable").
+export const FONT_SERIF = "'Source Serif 4 Variable', 'Source Serif 4', Georgia, serif";
 
 const gen = rough.generator();
 
@@ -74,7 +76,7 @@ export function arrowHead(x, y, angleDeg, { stroke = INK, size = 9 } = {}) {
 }
 
 export function text(x, y, content, { size = 14, anchor = 'start', fill = INK, family = FONT_SANS, weight = '400' } = {}) {
-  return `<text x="${x}" y="${y}" text-anchor="${anchor}" font-family="${family}" font-size="${size}" font-weight="${weight}" fill="${fill}">${esc(content)}</text>`;
+  return `<text x="${x}" y="${y}" text-anchor="${anchor}" font-family="${esc(family)}" font-size="${size}" font-weight="${weight}" fill="${fill}">${esc(content)}</text>`;
 }
 
 export function svgDoc({ width, height, title, body, style = '' }) {
