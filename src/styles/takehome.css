@@ -154,6 +154,8 @@
   pointer-events: none;
 }
 .th-diagram-hint::before { content: "⤢  "; }
+.th-diagram-inline svg { display: block; width: 100%; height: auto; }
+.th-diagram-inline { margin: 4px 0 26px; }
 .th-diagram figcaption { margin-top: 8px; font-size: 12px; color: var(--muted); }
 
 html.th-viewer-open { overflow: hidden; }
@@ -221,7 +223,22 @@ html.th-viewer-open { overflow: hidden; }
 .th-prose table { display: table; width: 100%; }
 .th-prose th { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 400; background: var(--wash); }
 .th-prose td { vertical-align: top; line-height: 1.65; }
-.th-prose blockquote { font-size: 17px; line-height: 1.75; color: var(--ink); }
+.th-prose th { white-space: nowrap; }
+.th-prose td, .th-prose th { overflow-wrap: normal; word-break: normal; }
+.prose.th-prose blockquote {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--prose-ink);
+  background: var(--wash);
+  border: 1px solid var(--rule);
+  border-left: 2px solid var(--green);
+  border-radius: 2px;
+  padding: 16px 20px;
+  margin: 24px 0;
+}
+.prose.th-prose blockquote p { margin: 0 0 10px; }
+.prose.th-prose blockquote p:last-child { margin-bottom: 0; }
 .th-prose pre { font-size: 12px; }
 
 /* ---------- pager ---------- */
@@ -323,6 +340,10 @@ kbd {
   .th-tldr { font-size: 18px; }
 }
 @media (max-width: 680px) {
+  /* Tables scroll sideways instead of squeezing words letter by letter. */
+  .th-prose table { display: block; overflow-x: auto; }
+  .th-prose td { min-width: 9em; }
+  .th-prose td:first-child { min-width: 0; }
   .th-steps { flex-wrap: nowrap; overflow-x: auto; gap: 18px; scrollbar-width: none; }
   .th-step-chip { white-space: nowrap; }
   .th-pager { grid-template-columns: 1fr 1fr; }

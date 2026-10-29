@@ -27,7 +27,13 @@ const escapeHtml = text => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').rep
 
 // A diagram becomes a figure that opens the full-screen viewer (or the raw file without JS).
 // Prefer the SVG export when one exists: it stays sharp at any zoom.
-export function diagramFigure(alt, file, base, svgs = new Set()) {
+// Hand-drawn site sketches (class="sketch-diagram") are inlined instead: they use the
+// page's CSS variables, so they follow the theme and are sized to read at column width.
+export function diagramFigure(alt, file, base, svgs = new Set(), inline = new Map()) {
+  if (inline.has(file)) {
+    // No caption: the sketch draws its own title and carries an aria-label.
+    return `<figure class="th-diagram th-diagram-inline">${inline.get(file)}</figure>`;
+  }
   const svg = file.replace(/\.png$/, '.svg');
   const src = `${base}/diagrams/${svgs.has(svg) ? svg : file}`;
   const label = escapeHtml(alt);
@@ -36,7 +42,7 @@ export function diagramFigure(alt, file, base, svgs = new Set()) {
     + `<figcaption>${label}</figcaption></figure>`;
 }
 
-export function transformAnswer(markdown, base, svgs = new Set()) {
+export function transformAnswer(markdown, base, svgs = new Set(), inline = new Map()) {
   const lines = markdown.replace(/\r\n/g, '\n').split('\n');
   const heading = lines.findIndex(line => /^##\s+/.test(line));
   const match = lines[heading]?.match(/^##\s+([A-Z]\d+)\s+[—-]\s+(.+)$/);
@@ -46,7 +52,7 @@ export function transformAnswer(markdown, base, svgs = new Set()) {
   let body = lines.filter((_, i) => i !== heading && i !== tldrIndex).join('\n').trim();
   body = body
     // Diagrams: served from the private asset folder, opened in the viewer.
-    .replace(/!\[([^\]]*)\]\(\.\.\/\.\.\/diagrams\/([^)]+)\)/g, (_, alt, file) => diagramFigure(alt, file, base, svgs))
+    .replace(/!\[([^\]]*)\]\(\.\.\/\.\.\/diagrams\/([^)]+)\)/g, (_, alt, file) => diagramFigure(alt, file, base, svgs, inline))
     // Code links: point at the rendered code page.
     .replace(/\]\(\.\.\/\.\.\/code\/([^)]*)\)/g, (_, path) => `](${base}/code/#${codeAnchor(path.replace(/\/$/, ''))})`);
   return { id: match[1].toLowerCase(), label: match[1], title: match[2].trim(), tldr, body };
@@ -70,10 +76,13 @@ export function sync({ source = process.env.TAKEHOME_DIR || '.takehome', root = 
 
   const diagrams = join(source, 'diagrams');
   const svgs = new Set(existsSync(diagrams) ? readdirSync(diagrams).filter(file => file.endsWith('.svg')) : []);
+  const inline = new Map([...svgs]
+    .map(file => [file, readFileSync(join(diagrams, file), 'utf8').trim()])
+    .filter(([, content]) => content.startsWith('<svg') && content.includes('class="sketch-diagram"') && !content.includes('\n')));
   const answers = walk(join(source, 'answers')).filter(path => path.endsWith('.md')).sort();
   answers.forEach((path, order) => {
     const part = basename(join(path, '..'));
-    const answer = transformAnswer(readFileSync(path, 'utf8'), base, svgs);
+    const answer = transformAnswer(readFileSync(path, 'utf8'), base, svgs, inline);
     const frontmatter = {
       label: answer.label, title: answer.title, tldr: answer.tldr,
       part, partLabel: PARTS[part] ?? part, order, question: questions[order] ?? '',

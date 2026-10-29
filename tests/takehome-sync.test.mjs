@@ -49,6 +49,13 @@ test('diagrams prefer the SVG export and escape their caption', () => {
   assert.match(out.body, /alt="A &lt;b&gt; &amp; &quot;c&quot;"/);
 });
 
+test('site sketches are inlined so they follow the theme', () => {
+  const sketch = '<svg viewBox="0 0 10 10" class="sketch-diagram"><rect fill="var(--paper)"/></svg>';
+  const out = transformAnswer('## S2 — T\n![Triage](../../diagrams/t.svg)\n', '/p/s', new Set(['t.svg']), new Map([['t.svg', sketch]]));
+  assert.match(out.body, /<figure class="th-diagram th-diagram-inline"><svg viewBox="0 0 10 10" class="sketch-diagram">/);
+  assert.doesNotMatch(out.body, /data-diagram/);
+});
+
 test('questions are split on blank lines and whitespace is normalised', () => {
   assert.deepEqual(parseQuestions('A one?\n\nB\ntwo?\n\n'), ['A one?', 'B two?']);
   assert.equal(codeAnchor('adr-example/0001-x.md'), 'adr-example-0001-x-md');
